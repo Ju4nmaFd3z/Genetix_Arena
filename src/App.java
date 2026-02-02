@@ -2,6 +2,8 @@ import Funciones.*;
 import Entidades.*;
 
 public class App {
+    //Clean Screen
+    public static final String CLEAN_SCREEN = "\033[H\033[2J";
     // Reset
     public static final String RESET = "\033[0m";  // Text Reset
     // Regular Colors
@@ -40,6 +42,11 @@ public class App {
             Curandero curandero = new Curandero(mapa);
             mapa[curandero.posY][curandero.posX] = CURANDERO;
         }
-        MisFunciones.pintarMapa(mapa);
+        boolean juegoTerminado = false;
+        do {
+            MisFunciones.pintarMapa(mapa);
+            Thread.sleep(250);
+            System.out.println(CLEAN_SCREEN);
+        } while (!juegoTerminado);
     }
 }
