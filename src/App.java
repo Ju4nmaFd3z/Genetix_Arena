@@ -2,17 +2,22 @@ import Funciones.*;
 import Entidades.*;
 
 public class App {
-    //Clean Screen
-    public static final String CLEAN_SCREEN = "\033[H\033[2J";
     // Reset
-    public static final String RESET = "\033[0m";  // Text Reset
-    // Regular Colors
-    public static final String RED = "\033[0;31m";     // RED
-    public static final String GREEN = "\033[0;32m";   // GREEN
-    public static final String YELLOW = "\033[0;33m";  // YELLOW
-    public static final String BLUE = "\033[0;34m";    // BLUE
+    public static final String RESET = "\033[0m";
+    // Colores
+    public static final String RED = "\033[0;31m";
+    public static final String GREEN = "\033[0;32m";
+    public static final String YELLOW = "\033[0;33m";
+    public static final String BLUE = "\033[0;34m";
+    //Limpiar Pantalla
+    public static void limpiarPantalla() throws Exception {
+        if (System.getProperty("os.name").contains("Windows")) {
+            new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+        } else {
+            new ProcessBuilder("clear").inheritIO().start().waitFor();
+        }
+    }
     public static void main(String[] args) throws Exception {
-        System.out.println("Genetix Arena - Juanma Fdez");
         final String VACIO = " ";
         final String OBSTACULO = YELLOW+"#"+RESET;
         final String ENEMIGO = RED+"X"+RESET;
@@ -42,11 +47,22 @@ public class App {
             Curandero curandero = new Curandero(mapa);
             mapa[curandero.posY][curandero.posX] = CURANDERO;
         }
+        int obstaculos = 5;
+        int enemigos = 10;
+        int aliados = 10;
+        int curanderos = 2;
         boolean juegoTerminado = false;
         do {
+            limpiarPantalla();
+            System.out.println("Genetix Arena - Juanma Fdez");
             MisFunciones.pintarMapa(mapa);
+            System.out.println("\nRecuento de entidades:");
+            System.out.println("------------------------");
+            System.out.printf("Obstáculos (%s): %d%n", OBSTACULO, obstaculos);
+            System.out.printf("Enemigos (%s): %d%n", ENEMIGO, enemigos);
+            System.out.printf("Aliados (%s): %d%n", ALIADO, aliados);
+            System.out.printf("Curanderos (%s): %d%n", CURANDERO, curanderos);
             Thread.sleep(250);
-            System.out.println(CLEAN_SCREEN);
         } while (!juegoTerminado);
     }
 }

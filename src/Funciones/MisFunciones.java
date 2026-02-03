@@ -32,4 +32,8 @@ public class MisFunciones {
         }
         System.out.println("╝");
     }
+
+    public static boolean casillaVacia(int fila, int columna, String[][] mapa){
+        return mapa[fila][columna].equals(" ");
+    }
 }
