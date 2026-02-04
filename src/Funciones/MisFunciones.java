@@ -1,6 +1,5 @@
 package Funciones;
 
-import java.lang.annotation.ElementType;
 import java.util.ArrayList;
 
 import Entidades.Aliado;
@@ -82,5 +81,11 @@ public class MisFunciones {
             return true;
         }
         return false;
+    }
+
+    public static void escapar(){
+    }
+
+    public static void perseguir(){
     }
 }

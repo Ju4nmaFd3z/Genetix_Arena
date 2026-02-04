@@ -1,5 +1,6 @@
 package Entidades;
 import Entidades.Contratos.MovimientoEnemigo;
+import Funciones.MisFunciones;
 
 public class Enemigo extends Entidad implements MovimientoEnemigo {
     public Enemigo(String[][] matriz){
@@ -8,7 +9,6 @@ public class Enemigo extends Entidad implements MovimientoEnemigo {
 
     @Override
     public void Persigue() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'Persigue'");
+        MisFunciones.perseguir();
     }
 }

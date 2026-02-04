@@ -1,5 +1,6 @@
 package Entidades;
 import Entidades.Contratos.MovimientoAliado;
+import Funciones.MisFunciones;
 
 public class Aliado extends Entidad implements MovimientoAliado {
     public Aliado(String[][] matriz){
@@ -8,7 +9,6 @@ public class Aliado extends Entidad implements MovimientoAliado {
 
     @Override
     public void Escapa() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'Escapa'");
+        MisFunciones.escapar();
     }
 }

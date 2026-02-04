@@ -1,4 +1,6 @@
 package Entidades;
+import java.util.ArrayList;
+
 import Entidades.Contratos.MovimientoCurandero;
 
 public class Curandero extends Entidad implements MovimientoCurandero{
@@ -7,14 +9,21 @@ public class Curandero extends Entidad implements MovimientoCurandero{
     }
 
     @Override
-    public void BuscaHerido() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'BuscaHerido'");
+    public Entidad BuscaAliadoMasHerido(ArrayList<Entidad> aliados) {
+        Entidad aliadoMasHerido = null;
+        int menorVida = Integer.MAX_VALUE;
+        for (Entidad aliado : aliados) {
+            if (aliado.vida < menorVida) {
+                menorVida = aliado.vida;
+                aliadoMasHerido = aliado;
+            }
+        }
+        return aliadoMasHerido;
     }
 
     @Override
-    public void Cura() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'Cura'");
+    public void Cura(Entidad aliado) {
+        //IR HASTA ALIADO
+        aliado.vida = 100;
     }
 }

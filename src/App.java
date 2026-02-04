@@ -66,7 +66,7 @@ public class App {
             System.out.printf("Obstáculos (%s): %d%n", OBSTACULO, listaObstaculos.size());
             System.out.printf("Enemigos (%s): %d%n", ENEMIGO, listaEnemigos.size());
             System.out.printf("Aliados (%s): %d%n", ALIADO, listaAliados.size());
-            System.out.printf("Curanderos (%s): %d%n", CURANDERO, listaCuranderos.size());
+            System.out.printf("Curanderos (%s) [%s]: %d%n", CURANDERO, "SIN IMPLEMENTAR", listaCuranderos.size());
             Thread.sleep(250);
         } while (!juegoTerminado);
     }
