@@ -8,8 +8,8 @@ public class Aliado extends Entidad {
     }
 
     public void Escapa(ArrayList<Enemigo> listaEnemigos, int ALTO, int ANCHO,
-                    ArrayList<Aliado> listaAliados, ArrayList<Obstaculo> listaObstaculos, 
-                    ArrayList<Curandero> listaCuranderos) {
+                       ArrayList<Aliado> listaAliados, ArrayList<Obstaculo> listaObstaculos, 
+                       ArrayList<Curandero> listaCuranderos) {
         Enemigo enemigo = null;
         int distanciaMinima = Integer.MAX_VALUE;
         for (Enemigo enemigoDeLaLista : listaEnemigos) {

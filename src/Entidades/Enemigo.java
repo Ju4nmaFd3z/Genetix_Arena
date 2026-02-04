@@ -8,8 +8,8 @@ public class Enemigo extends Entidad {
     }
 
     public void Persigue(ArrayList<Aliado> listaAliados, int ALTO, int ANCHO,
-                        ArrayList<Enemigo> listaEnemigos, ArrayList<Obstaculo> listaObstaculos, 
-                        ArrayList<Curandero> listaCuranderos) {
+                         ArrayList<Enemigo> listaEnemigos, ArrayList<Obstaculo> listaObstaculos, 
+                         ArrayList<Curandero> listaCuranderos) {
         Aliado objetivo = null;
         int distanciaMinima = Integer.MAX_VALUE;
         for (Aliado aliado : listaAliados) {

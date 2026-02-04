@@ -19,8 +19,8 @@ public class App {
         }
     }
     public static void redibujarMapa(String[][] mapa, ArrayList<Obstaculo> listaObstaculos,
-                                    ArrayList<Enemigo> listaEnemigos, ArrayList<Aliado> listaAliados,
-                                    ArrayList<Curandero> listaCuranderos) {
+                                     ArrayList<Enemigo> listaEnemigos, ArrayList<Aliado> listaAliados,
+                                     ArrayList<Curandero> listaCuranderos) {
         for (int i = 0; i < mapa.length; i++) {
             for (int j = 0; j < mapa[0].length; j++) {
                 mapa[i][j] = " ";

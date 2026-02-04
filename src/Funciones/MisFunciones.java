@@ -45,8 +45,8 @@ public class MisFunciones {
     }
 
     public static boolean posicionValida(int xDestino, int yDestino, int ALTO, int ANCHO, 
-                                        ArrayList<Aliado> listaAliados, ArrayList<Enemigo> listaEnemigos, 
-                                        ArrayList<Obstaculo> listaObstaculos, ArrayList<Curandero> listaCuranderos){
+                                         ArrayList<Aliado> listaAliados, ArrayList<Enemigo> listaEnemigos, 
+                                         ArrayList<Obstaculo> listaObstaculos, ArrayList<Curandero> listaCuranderos){
         if ((xDestino>=0&&xDestino<ANCHO)&&(yDestino>=0&&yDestino<ALTO)){
             for (Obstaculo obstaculo : listaObstaculos) {
                 if (obstaculo.posX == xDestino && obstaculo.posY == yDestino)
