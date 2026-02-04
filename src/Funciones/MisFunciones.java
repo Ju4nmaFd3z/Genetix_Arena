@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import Entidades.Aliado;
 import Entidades.Curandero;
 import Entidades.Enemigo;
-import Entidades.Entidad;
 import Entidades.Obstaculo;
 
 public class MisFunciones {
@@ -45,20 +44,7 @@ public class MisFunciones {
         return mapa[fila][columna].equals(" ");
     }
 
-    public static Entidad entidadCercana(int miPosY, int miPosX, ArrayList<Entidad> listaEntidades){
-        Entidad entidadCercana = null;
-        int distanciaMinima = Integer.MAX_VALUE;
-        for (Entidad entidad : listaEntidades) {
-            int distanciaEntreEntidades = Math.abs(miPosY - entidad.posY) + Math.abs(miPosX - entidad.posX);
-            if (distanciaEntreEntidades < distanciaMinima) {
-                distanciaMinima = distanciaEntreEntidades;
-                entidadCercana = entidad;
-            }
-        }
-        return entidadCercana;
-    }
-
-    public static boolean posicionValida (int xDestino, int yDestino, int ALTO, int ANCHO, 
+    public static boolean posicionValida(int xDestino, int yDestino, int ALTO, int ANCHO, 
                                         ArrayList<Aliado> listaAliados, ArrayList<Enemigo> listaEnemigos, 
                                         ArrayList<Obstaculo> listaObstaculos, ArrayList<Curandero> listaCuranderos){
         if ((xDestino>=0&&xDestino<ANCHO)&&(yDestino>=0&&yDestino<ALTO)){
@@ -81,11 +67,5 @@ public class MisFunciones {
             return true;
         }
         return false;
-    }
-
-    public static void escapar(){
-    }
-
-    public static void perseguir(){
     }
 }

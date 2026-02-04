@@ -1,14 +1,44 @@
 package Entidades;
-import Entidades.Contratos.MovimientoEnemigo;
+import java.util.ArrayList;
 import Funciones.MisFunciones;
 
-public class Enemigo extends Entidad implements MovimientoEnemigo {
+public class Enemigo extends Entidad {
     public Enemigo(String[][] matriz){
         super(matriz);
     }
 
-    @Override
-    public void Persigue() {
-        MisFunciones.perseguir();
+    public void Persigue(ArrayList<Aliado> listaAliados, int ALTO, int ANCHO,
+                        ArrayList<Enemigo> listaEnemigos, ArrayList<Obstaculo> listaObstaculos, 
+                        ArrayList<Curandero> listaCuranderos) {
+        Aliado objetivo = null;
+        int distanciaMinima = Integer.MAX_VALUE;
+        for (Aliado aliado : listaAliados) {
+            int distancia = Math.abs(this.posY - aliado.posY) + Math.abs(this.posX - aliado.posX);
+            if (distancia < distanciaMinima) {
+                distanciaMinima = distancia;
+                objetivo = aliado;
+            }
+        }
+        if (objetivo == null) return;
+        int nuevaX = this.posX;
+        int nuevaY = this.posY;
+        //Busco cambiar la X y la Y validando por separado
+        if (objetivo.posX > this.posX) {
+            nuevaX = this.posX + 1;
+        } else if (objetivo.posX < this.posX) {
+            nuevaX = this.posX - 1;
+        }
+        if (MisFunciones.posicionValida(nuevaX, this.posY, ALTO, ANCHO, listaAliados, listaEnemigos, listaObstaculos, listaCuranderos)) {
+            this.posX = nuevaX;
+            return;
+        }
+        if (objetivo.posY > this.posY) {
+            nuevaY = this.posY + 1;
+        } else if (objetivo.posY < this.posY) {
+            nuevaY = this.posY - 1;
+        }
+        if (MisFunciones.posicionValida(this.posX, nuevaY, ALTO, ANCHO, listaAliados, listaEnemigos, listaObstaculos, listaCuranderos)) {
+            this.posY = nuevaY;
+        }
     }
 }

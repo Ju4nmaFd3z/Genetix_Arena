@@ -77,18 +77,26 @@ public class App {
             listaCuranderos.add(curandero);
             mapa[curandero.posY][curandero.posX] = CURANDERO;
         }
+        String evento = "Se ha iniciado el juego";
         boolean juegoTerminado = false;
         do {
             limpiarPantalla();
             System.out.println("Genetix Arena - Juanma Fdez");
+            for (Enemigo enemigo : listaEnemigos) {
+                enemigo.Persigue(listaAliados, ALTO, ANCHO, listaEnemigos, listaObstaculos, listaCuranderos);
+            }
+            for (Aliado aliado : listaAliados) {
+                aliado.Escapa(listaEnemigos, ALTO, ANCHO, listaAliados, listaObstaculos, listaCuranderos);
+            }
             redibujarMapa(mapa, listaObstaculos, listaEnemigos, listaAliados, listaCuranderos);
             MisFunciones.pintarMapa(mapa);
+            System.out.printf("\nEventos Recientes: %s%n", evento);
             System.out.println("\nRecuento de entidades:");
             System.out.println("------------------------");
             System.out.printf("Obstáculos (%s): %d%n", OBSTACULO, listaObstaculos.size());
             System.out.printf("Enemigos (%s): %d%n", ENEMIGO, listaEnemigos.size());
             System.out.printf("Aliados (%s): %d%n", ALIADO, listaAliados.size());
-            System.out.printf("Curanderos (%s) [%s]: %d%n", CURANDERO, "SIN IMPLEMENTAR", listaCuranderos.size());
+            System.out.printf("Curanderos (%s) [Por Implementar]: %d%n", CURANDERO, listaCuranderos.size());
             Thread.sleep(250);
         } while (!juegoTerminado);
     }
