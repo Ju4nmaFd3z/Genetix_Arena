@@ -22,7 +22,7 @@ public class Enemigo extends Entidad {
         if (objetivo == null) return;
         int nuevaX = this.posX;
         int nuevaY = this.posY;
-        //Busco cambiar la X y la Y validando por separado
+        // Intento moverme primero en X, y si falla, pruebo en Y
         if (objetivo.posX > this.posX) {
             nuevaX = this.posX + 1;
         } else if (objetivo.posX < this.posX) {

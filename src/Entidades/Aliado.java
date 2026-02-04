@@ -22,7 +22,7 @@ public class Aliado extends Entidad {
         if (enemigo == null) return;
         int nuevoX = this.posX;
         int nuevoY = this.posY;
-        //Igual que con el enemigo a la hora de perseguir, busco cambiar la X y la Y validando por separado
+        // Al igual el enemigo al perseguir, intento moverme primero en X y si falla, pruebo en Y
         if (enemigo.posX > this.posX) {
             nuevoX = this.posX - 1;
         } else if (enemigo.posX < this.posX) {
