@@ -1,5 +1,6 @@
 import Funciones.*;
 import Entidades.*;
+import java.util.ArrayList;
 
 public class App {
     // Reset
@@ -26,6 +27,10 @@ public class App {
         final int ALTO = 10;
         final int ANCHO = 30;
         String[][] mapa = new String[ALTO][ANCHO];
+        ArrayList<Obstaculo> listaObstaculos = new ArrayList<>();
+        ArrayList<Enemigo> listaEnemigos = new ArrayList<>();
+        ArrayList<Aliado> listaAliados = new ArrayList<>();
+        ArrayList<Curandero> listaCuranderos = new ArrayList<>();
         for (int i = 0; i < ALTO; i++) {
             for (int j = 0; j < ANCHO; j++) {
                 mapa[i][j] = VACIO;
@@ -33,24 +38,24 @@ public class App {
         }
         for (int i = 0; i < 5; i++) {
             Obstaculo obstaculo = new Obstaculo(mapa);
+            listaObstaculos.add(obstaculo);
             mapa[obstaculo.posY][obstaculo.posX] = OBSTACULO;
         }
         for (int i = 0; i < 10; i++) {
             Enemigo enemigo = new Enemigo(mapa);
+            listaEnemigos.add(enemigo);
             mapa[enemigo.posY][enemigo.posX] = ENEMIGO;
         }
         for (int i = 0; i < 10; i++) {
             Aliado aliado = new Aliado(mapa);
+            listaAliados.add(aliado);
             mapa[aliado.posY][aliado.posX] = ALIADO;
         }
         for (int i = 0; i < 2; i++) {
             Curandero curandero = new Curandero(mapa);
+            listaCuranderos.add(curandero);
             mapa[curandero.posY][curandero.posX] = CURANDERO;
         }
-        int obstaculos = 5;
-        int enemigos = 10;
-        int aliados = 10;
-        int curanderos = 2;
         boolean juegoTerminado = false;
         do {
             limpiarPantalla();
@@ -58,10 +63,10 @@ public class App {
             MisFunciones.pintarMapa(mapa);
             System.out.println("\nRecuento de entidades:");
             System.out.println("------------------------");
-            System.out.printf("Obstáculos (%s): %d%n", OBSTACULO, obstaculos);
-            System.out.printf("Enemigos (%s): %d%n", ENEMIGO, enemigos);
-            System.out.printf("Aliados (%s): %d%n", ALIADO, aliados);
-            System.out.printf("Curanderos (%s): %d%n", CURANDERO, curanderos);
+            System.out.printf("Obstáculos (%s): %d%n", OBSTACULO, listaObstaculos.size());
+            System.out.printf("Enemigos (%s): %d%n", ENEMIGO, listaEnemigos.size());
+            System.out.printf("Aliados (%s): %d%n", ALIADO, listaAliados.size());
+            System.out.printf("Curanderos (%s): %d%n", CURANDERO, listaCuranderos.size());
             Thread.sleep(250);
         } while (!juegoTerminado);
     }
