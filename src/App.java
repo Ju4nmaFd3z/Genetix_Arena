@@ -18,6 +18,27 @@ public class App {
             new ProcessBuilder("clear").inheritIO().start().waitFor();
         }
     }
+    public static void redibujarMapa(String[][] mapa, ArrayList<Obstaculo> listaObstaculos,
+                                    ArrayList<Enemigo> listaEnemigos, ArrayList<Aliado> listaAliados,
+                                    ArrayList<Curandero> listaCuranderos) {
+        for (int i = 0; i < mapa.length; i++) {
+            for (int j = 0; j < mapa[0].length; j++) {
+                mapa[i][j] = " ";
+            }
+        }
+        for (Obstaculo obstaculo : listaObstaculos) {
+            mapa[obstaculo.posY][obstaculo.posX] = YELLOW+"#"+RESET;
+        }
+        for (Enemigo enemigo : listaEnemigos) {
+            mapa[enemigo.posY][enemigo.posX] = RED+"X"+RESET;
+        }
+        for (Aliado aliado : listaAliados) {
+            mapa[aliado.posY][aliado.posX] = GREEN+"O"+RESET;
+        }
+        for (Curandero curandero : listaCuranderos) {
+            mapa[curandero.posY][curandero.posX] = BLUE+"&"+RESET;
+        }
+    }
     public static void main(String[] args) throws Exception {
         final String VACIO = " ";
         final String OBSTACULO = YELLOW+"#"+RESET;
@@ -60,6 +81,7 @@ public class App {
         do {
             limpiarPantalla();
             System.out.println("Genetix Arena - Juanma Fdez");
+            redibujarMapa(mapa, listaObstaculos, listaEnemigos, listaAliados, listaCuranderos);
             MisFunciones.pintarMapa(mapa);
             System.out.println("\nRecuento de entidades:");
             System.out.println("------------------------");
