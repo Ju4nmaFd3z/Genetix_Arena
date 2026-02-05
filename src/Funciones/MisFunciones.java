@@ -58,4 +58,38 @@ public class MisFunciones {
         }
         return false;
     }
+
+    public static String detectarYResolverColisiones(ArrayList<Enemigo> listaEnemigos, ArrayList<Aliado> listaAliados) {
+        String evento = "Por ahora nada...";
+        for (int i = 0; i < listaEnemigos.size(); i++) {
+            Enemigo enemigo = listaEnemigos.get(i);
+            for (int j = 0; j < listaAliados.size(); j++) {
+                Aliado aliado = listaAliados.get(j);
+                int diferenciaX = Math.abs(enemigo.posX - aliado.posX);
+                int diferenciaY = Math.abs(enemigo.posY - aliado.posY);
+                if ((diferenciaX == 0 && diferenciaY == 0) || (diferenciaX <= 1 && diferenciaY <= 1 && (diferenciaX + diferenciaY) <= 2)) {
+                    enemigo.vida -= 25;
+                    aliado.vida -= 30;
+                    evento = "¡Enfrentamiento! Se están matando...";
+                    return evento;
+                }
+            }
+        }
+        return evento;
+    }
+
+    public static void limpiarMuertos(ArrayList<Enemigo> listaEnemigos, ArrayList<Aliado> listaAliados) {
+        for (int i = 0; i < listaEnemigos.size(); i++) {
+            if (listaEnemigos.get(i).vida <= 0) {
+                listaEnemigos.remove(i);
+                i--; // Irme para atrás para no skippear la posición que se adelanta
+            }
+        }
+        for (int i = 0; i < listaAliados.size(); i++) {
+            if (listaAliados.get(i).vida <= 0) {
+                listaAliados.remove(i);
+                i--; // Irme para atrás para no skippear la posición que se adelanta
+            }
+        }
+    }
 }

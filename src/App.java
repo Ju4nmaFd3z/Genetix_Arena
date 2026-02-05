@@ -10,7 +10,7 @@ public class App {
     public static final String GREEN = "\033[0;32m";
     public static final String YELLOW = "\033[0;33m";
     public static final String BLUE = "\033[0;34m";
-    //Limpiar Pantalla
+    // Limpiar Pantalla
     public static void limpiarPantalla() throws Exception {
         if (System.getProperty("os.name").contains("Windows")) {
             new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
@@ -82,12 +82,18 @@ public class App {
         do {
             limpiarPantalla();
             System.out.println("Genetix Arena - Juanma Fdez");
+            // Iniciamos persecución
             for (Enemigo enemigo : listaEnemigos) {
                 enemigo.Persigue(listaAliados, ALTO, ANCHO, listaEnemigos, listaObstaculos, listaCuranderos);
             }
+            // Iniciamos los movimientos de escape
             for (Aliado aliado : listaAliados) {
                 aliado.Escapa(listaEnemigos, ALTO, ANCHO, listaAliados, listaObstaculos, listaCuranderos);
             }
+            // Actualizamos los eventos en tiempo real (Mientras luchan por detrás)
+            evento = MisFunciones.detectarYResolverColisiones(listaEnemigos, listaAliados);
+            // Limpiamos los muertos del mapa
+            MisFunciones.limpiarMuertos(listaEnemigos, listaAliados);
             redibujarMapa(mapa, listaObstaculos, listaEnemigos, listaAliados, listaCuranderos);
             MisFunciones.pintarMapa(mapa);
             System.out.printf("\nEventos Recientes: %s%n", evento);
@@ -97,6 +103,13 @@ public class App {
             System.out.printf("Enemigos (%s): %d%n", ENEMIGO, listaEnemigos.size());
             System.out.printf("Aliados (%s): %d%n", ALIADO, listaAliados.size());
             System.out.printf("Curanderos (%s) [Por Implementar]: %d%n", CURANDERO, listaCuranderos.size());
+            if (listaAliados.isEmpty()) {
+                evento = "¡Ganan los enemigos, qué ruina!";
+                juegoTerminado = true;
+            } else if (listaEnemigos.isEmpty()) {
+                evento = "¡Ganan los aliados, a tope con la COPE!";
+                juegoTerminado = true;
+            }
             Thread.sleep(250);
         } while (!juegoTerminado);
     }
