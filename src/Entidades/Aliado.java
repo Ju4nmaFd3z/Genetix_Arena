@@ -1,8 +1,10 @@
 package Entidades;
 import java.util.ArrayList;
+
+import Entidades.Contratos.InterfazAliado;
 import Funciones.MisFunciones;
 
-public class Aliado extends Entidad {
+public class Aliado extends Entidad implements InterfazAliado{
     public Aliado(String[][] matriz){
         super(matriz);
     }

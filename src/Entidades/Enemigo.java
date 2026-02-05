@@ -1,8 +1,10 @@
 package Entidades;
 import java.util.ArrayList;
+
+import Entidades.Contratos.InterfazEnemigo;
 import Funciones.MisFunciones;
 
-public class Enemigo extends Entidad {
+public class Enemigo extends Entidad implements InterfazEnemigo{
     public Enemigo(String[][] matriz){
         super(matriz);
     }

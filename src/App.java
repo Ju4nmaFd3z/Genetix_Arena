@@ -45,8 +45,8 @@ public class App {
         final String ENEMIGO = RED+"X"+RESET;
         final String ALIADO = GREEN+"O"+RESET;
         final String CURANDERO = BLUE+"&"+RESET;
-        final int ALTO = 10;
-        final int ANCHO = 30;
+        final int ALTO = 20;
+        final int ANCHO = 50;
         String[][] mapa = new String[ALTO][ANCHO];
         ArrayList<Obstaculo> listaObstaculos = new ArrayList<>();
         ArrayList<Enemigo> listaEnemigos = new ArrayList<>();
@@ -57,22 +57,22 @@ public class App {
                 mapa[i][j] = VACIO;
             }
         }
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 30; i++) {
             Obstaculo obstaculo = new Obstaculo(mapa);
             listaObstaculos.add(obstaculo);
             mapa[obstaculo.posY][obstaculo.posX] = OBSTACULO;
         }
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 25; i++) {
             Enemigo enemigo = new Enemigo(mapa);
             listaEnemigos.add(enemigo);
             mapa[enemigo.posY][enemigo.posX] = ENEMIGO;
         }
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 25; i++) {
             Aliado aliado = new Aliado(mapa);
             listaAliados.add(aliado);
             mapa[aliado.posY][aliado.posX] = ALIADO;
         }
-        for (int i = 0; i < 2; i++) {
+        for (int i = 0; i < 5; i++) {
             Curandero curandero = new Curandero(mapa);
             listaCuranderos.add(curandero);
             mapa[curandero.posY][curandero.posX] = CURANDERO;
