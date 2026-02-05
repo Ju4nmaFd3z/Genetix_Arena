@@ -18,32 +18,49 @@ public class Aliado extends Entidad implements InterfazAliado{
             double diferenciaX = this.posX - enemigoDeLaLista.posX;
             double diferenciaY = this.posY - enemigoDeLaLista.posY;
             double distancia = Math.sqrt(Math.pow(diferenciaX, 2) + Math.pow(diferenciaY, 2));
-            
             if (distancia < distanciaMinima) {
                 distanciaMinima = distancia;
                 enemigo = enemigoDeLaLista;
             }
         }
         if (enemigo == null) return;
-        int nuevoX = this.posX;
-        int nuevoY = this.posY;
-        // Al igual el enemigo al perseguir, intento moverme primero en X y si falla, pruebo en Y
+        int nuevaX = this.posX;
+        int nuevaY = this.posY;
+        // Intento moverme primero en X
         if (enemigo.posX > this.posX) {
-            nuevoX = this.posX - 1;
+            nuevaX = this.posX - 1;
         } else if (enemigo.posX < this.posX) {
-            nuevoX = this.posX + 1;
+            nuevaX = this.posX + 1;
         }
-        if (MisFunciones.posicionValida(nuevoX, this.posY, ALTO, ANCHO, listaAliados, listaEnemigos, listaObstaculos, listaCuranderos)) {
-            this.posX = nuevoX;
+        if (MisFunciones.posicionValida(nuevaX, this.posY, ALTO, ANCHO, listaAliados, listaEnemigos, listaObstaculos, listaCuranderos)) {
+            this.posX = nuevaX;
             return;
         }
+        // Si X falla, intento en Y
+        nuevaX = this.posX;
         if (enemigo.posY > this.posY) {
-            nuevoY = this.posY - 1;
+            nuevaY = this.posY - 1;
         } else if (enemigo.posY < this.posY) {
-            nuevoY = this.posY + 1;
+            nuevaY = this.posY + 1;
         }
-        if (MisFunciones.posicionValida(this.posX, nuevoY, ALTO, ANCHO, listaAliados, listaEnemigos, listaObstaculos, listaCuranderos)) {
-            this.posY = nuevoY;
+        if (MisFunciones.posicionValida(this.posX, nuevaY, ALTO, ANCHO, listaAliados, listaEnemigos, listaObstaculos, listaCuranderos)) {
+            this.posY = nuevaY;
+            return;
+        }
+        // Si ambas fallan, intento diagonal como último recurso
+        if (enemigo.posX > this.posX) {
+            nuevaX = this.posX - 1;
+        } else if (enemigo.posX < this.posX) {
+            nuevaX = this.posX + 1;
+        }
+        if (enemigo.posY > this.posY) {
+            nuevaY = this.posY - 1;
+        } else if (enemigo.posY < this.posY) {
+            nuevaY = this.posY + 1;
+        }
+        if (MisFunciones.posicionValida(nuevaX, nuevaY, ALTO, ANCHO, listaAliados, listaEnemigos, listaObstaculos, listaCuranderos)) {
+            this.posX = nuevaX;
+            this.posY = nuevaY;
         }
     }
 }
