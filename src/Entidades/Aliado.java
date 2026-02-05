@@ -18,6 +18,7 @@ public class Aliado extends Entidad implements InterfazAliado{
             double diferenciaX = this.posX - enemigoDeLaLista.posX;
             double diferenciaY = this.posY - enemigoDeLaLista.posY;
             double distancia = Math.sqrt(Math.pow(diferenciaX, 2) + Math.pow(diferenciaY, 2));
+            
             if (distancia < distanciaMinima) {
                 distanciaMinima = distancia;
                 enemigo = enemigoDeLaLista;
@@ -48,6 +49,8 @@ public class Aliado extends Entidad implements InterfazAliado{
             return;
         }
         // Si ambas fallan, intento diagonal como último recurso
+        nuevaX = this.posX;
+        nuevaY = this.posY;
         if (enemigo.posX > this.posX) {
             nuevaX = this.posX - 1;
         } else if (enemigo.posX < this.posX) {

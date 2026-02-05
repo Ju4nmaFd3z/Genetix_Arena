@@ -18,6 +18,7 @@ public class Enemigo extends Entidad implements InterfazEnemigo{
             double diferenciaX = this.posX - aliado.posX;
             double diferenciaY = this.posY - aliado.posY;
             double distancia = Math.sqrt(Math.pow(diferenciaX, 2) + Math.pow(diferenciaY, 2));
+
             if (distancia < distanciaMinima) {
                 distanciaMinima = distancia;
                 objetivo = aliado;
@@ -48,6 +49,8 @@ public class Enemigo extends Entidad implements InterfazEnemigo{
             return;
         }
         // Si ambas fallan, intento diagonal como último recurso
+        nuevaX = this.posX;
+        nuevaY = this.posY;
         if (objetivo.posX > this.posX) {
             nuevaX = this.posX + 1;
         } else if (objetivo.posX < this.posX) {
