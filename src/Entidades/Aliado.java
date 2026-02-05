@@ -13,9 +13,12 @@ public class Aliado extends Entidad implements InterfazAliado{
                        ArrayList<Aliado> listaAliados, ArrayList<Obstaculo> listaObstaculos, 
                        ArrayList<Curandero> listaCuranderos) {
         Enemigo enemigo = null;
-        int distanciaMinima = Integer.MAX_VALUE;
+        double distanciaMinima = Integer.MAX_VALUE;
         for (Enemigo enemigoDeLaLista : listaEnemigos) {
-            int distancia = Math.abs(this.posY - enemigoDeLaLista.posY) + Math.abs(this.posX - enemigoDeLaLista.posX);
+            double diferenciaX = this.posX - enemigoDeLaLista.posX;
+            double diferenciaY = this.posY - enemigoDeLaLista.posY;
+            double distancia = Math.sqrt(Math.pow(diferenciaX, 2) + Math.pow(diferenciaY, 2));
+            
             if (distancia < distanciaMinima) {
                 distanciaMinima = distancia;
                 enemigo = enemigoDeLaLista;
