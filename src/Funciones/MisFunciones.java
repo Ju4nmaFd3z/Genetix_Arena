@@ -69,7 +69,7 @@ public class MisFunciones {
                 int diferenciaY = Math.abs(enemigo.posY - aliado.posY);
                 if ((diferenciaX == 0 && diferenciaY == 0) || (diferenciaX <= 1 && diferenciaY <= 1 && (diferenciaX + diferenciaY) <= 2)) {
                     enemigo.vida -= 25;
-                    aliado.vida -= 30;
+                    aliado.vida -= 35;
                     evento = "¡Enfrentamiento! Se están matando...";
                     return evento;
                 }
