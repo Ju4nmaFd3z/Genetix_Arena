@@ -24,6 +24,7 @@ public class Aliado extends Entidad implements InterfazAliado{
                 enemigo = enemigoDeLaLista;
             }
         }
+        if (distanciaMinima > 5) return;
         if (enemigo == null) return;
         int nuevaX = this.posX;
         int nuevaY = this.posY;

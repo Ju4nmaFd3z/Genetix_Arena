@@ -111,12 +111,12 @@ public class App {
             MisFunciones.pintarMapa(mapa);
             System.out.printf("\nEventos Recientes: %s%n", evento);
             System.out.println("\nRecuento de entidades:");
-            System.out.println("------------------------");
+            System.out.println("-----------------------------------");
             System.out.printf("Obstáculos (%s): %d%n", OBSTACULO, listaObstaculos.size());
+            System.out.printf("Curanderos (%s) [Por Implementar]: %d%n", CURANDERO, listaCuranderos.size());
+            System.out.println("-----------------------------------");
             System.out.printf("Enemigos (%s): %d%n", ENEMIGO, listaEnemigos.size());
             System.out.printf("Aliados (%s): %d%n", ALIADO, listaAliados.size());
-            System.out.printf("Curanderos (%s) [Por Implementar]: %d%n", CURANDERO, listaCuranderos.size());
-            
             Thread.sleep(250);
         } while (!juegoTerminado);
     }
