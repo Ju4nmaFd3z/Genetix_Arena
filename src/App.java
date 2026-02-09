@@ -90,6 +90,10 @@ public class App {
             for (Aliado aliado : listaAliados) {
                 aliado.Escapa(listaEnemigos, ALTO, ANCHO, listaAliados, listaObstaculos, listaCuranderos);
             }
+            // Movimiento y curación de curanderos
+            for (Curandero curandero : listaCuranderos) {
+                curandero.Cura(listaAliados, ALTO, ANCHO, listaEnemigos, listaObstaculos, listaCuranderos);
+            }
             // Actualizamos los eventos en tiempo real (Mientras luchan por detrás)
             evento = MisFunciones.detectarYResolverColisiones(listaEnemigos, listaAliados);
             // Limpiamos los muertos del mapa
@@ -113,7 +117,7 @@ public class App {
             System.out.println("\nRecuento de entidades:");
             System.out.println("-----------------------------------");
             System.out.printf("Obstáculos (%s): %d%n", OBSTACULO, listaObstaculos.size());
-            System.out.printf("Curanderos (%s) [Por Implementar]: %d%n", CURANDERO, listaCuranderos.size());
+            System.out.printf("Curanderos (%s): %d%n", CURANDERO, listaCuranderos.size());
             System.out.println("-----------------------------------");
             System.out.printf("Enemigos (%s): %d%n", ENEMIGO, listaEnemigos.size());
             System.out.printf("Aliados (%s): %d%n", ALIADO, listaAliados.size());
