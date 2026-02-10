@@ -121,7 +121,7 @@ public class App {
             System.out.println("-----------------------------------");
             System.out.printf("Enemigos (%s): %d%n", ENEMIGO, listaEnemigos.size());
             System.out.printf("Aliados (%s): %d%n", ALIADO, listaAliados.size());
-            Thread.sleep(250);
+            Thread.sleep(200);
         } while (!juegoTerminado);
     }
 }

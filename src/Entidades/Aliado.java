@@ -37,9 +37,14 @@ public class Aliado extends Entidad implements InterfazAliado{
         if (MisFunciones.posicionValida(nuevaX, this.posY, ALTO, ANCHO, listaAliados, listaEnemigos, listaObstaculos, listaCuranderos)) {
             this.posX = nuevaX;
             return;
+        } else {
+            nuevaX = -nuevaX;
+            if (MisFunciones.posicionValida(nuevaX, this.posY, ALTO, ANCHO, listaAliados, listaEnemigos, listaObstaculos, listaCuranderos)) {
+                this.posX = nuevaX;
+                return;
+            }
         }
         // Si X falla, intento en Y
-        nuevaX = this.posX;
         if (enemigo.posY > this.posY) {
             nuevaY = this.posY - 1;
         } else if (enemigo.posY < this.posY) {
@@ -48,23 +53,28 @@ public class Aliado extends Entidad implements InterfazAliado{
         if (MisFunciones.posicionValida(this.posX, nuevaY, ALTO, ANCHO, listaAliados, listaEnemigos, listaObstaculos, listaCuranderos)) {
             this.posY = nuevaY;
             return;
+        } else {
+            nuevaY = -nuevaY;
+            if (MisFunciones.posicionValida(this.posX, nuevaY, ALTO, ANCHO, listaAliados, listaEnemigos, listaObstaculos, listaCuranderos)) {
+                this.posY = nuevaY;
+                return;
+            }
         }
-        // Si ambas fallan, intento diagonal como último recurso
-        nuevaX = this.posX;
-        nuevaY = this.posY;
-        if (enemigo.posX > this.posX) {
+        // Si ambas fallan, intento con la diagonal
+        if ((enemigo.posX > this.posX)&&(enemigo.posY > this.posY)) {
             nuevaX = this.posX - 1;
-        } else if (enemigo.posX < this.posX) {
-            nuevaX = this.posX + 1;
-        }
-        if (enemigo.posY > this.posY) {
             nuevaY = this.posY - 1;
-        } else if (enemigo.posY < this.posY) {
+            if (MisFunciones.posicionValida(nuevaX, nuevaY, ALTO, ANCHO, listaAliados, listaEnemigos, listaObstaculos, listaCuranderos)) {
+                this.posX = nuevaX;
+                this.posY = nuevaY;
+            }
+        } else if ((enemigo.posX < this.posX)&&(enemigo.posY < this.posY)) {
+            nuevaX = this.posX + 1;
             nuevaY = this.posY + 1;
-        }
-        if (MisFunciones.posicionValida(nuevaX, nuevaY, ALTO, ANCHO, listaAliados, listaEnemigos, listaObstaculos, listaCuranderos)) {
-            this.posX = nuevaX;
-            this.posY = nuevaY;
+            if (MisFunciones.posicionValida(nuevaX, nuevaY, ALTO, ANCHO, listaAliados, listaEnemigos, listaObstaculos, listaCuranderos)) {
+                this.posX = nuevaX;
+                this.posY = nuevaY;
+            }
         }
     }
 }
