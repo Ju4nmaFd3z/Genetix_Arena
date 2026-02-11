@@ -7,7 +7,23 @@ import Entidades.Curandero;
 import Entidades.Enemigo;
 import Entidades.Obstaculo;
 
+/**
+ * Clase con funciones utilitarias para el juego Genetix Arena.
+ * Proporciona métodos para la gestión del mapa, validación de posiciones,
+ * detección de colisiones y limpieza de entidades muertas.
+ * 
+ * @author Juanma Fdez
+ * @version 1.0
+ */
 public class MisFunciones {
+    
+    /**
+     * Pinta el mapa en la consola con bordes decorativos.
+     * Dibuja un marco de caracteres especiales alrededor de la matriz
+     * y muestra el contenido de cada casilla.
+     * 
+     * @param matriz La matriz bidimensional que representa el mapa
+     */
     public static void pintarMapa(String[][] matriz) {
         int filas = matriz.length;
         int columnas = matriz[0].length;
@@ -30,10 +46,33 @@ public class MisFunciones {
         System.out.println("══╝");
     }
 
+    /**
+     * Verifica si una casilla específica del mapa está vacía.
+     * 
+     * @param fila Índice de la fila a verificar
+     * @param columna Índice de la columna a verificar
+     * @param mapa La matriz del mapa del juego
+     * @return {@code true} si la casilla contiene un espacio en blanco, {@code false} en caso contrario
+     */
     public static boolean casillaVacia(int fila, int columna, String[][] mapa){
         return mapa[fila][columna].equals(" ");
     }
 
+    /**
+     * Valida si una posición es accesible en el mapa.
+     * Comprueba que la posición esté dentro de los límites del mapa
+     * y que no haya obstáculos, aliados, enemigos ni curanderos en esa ubicación.
+     * 
+     * @param xDestino Coordenada X de la posición a validar
+     * @param yDestino Coordenada Y de la posición a validar
+     * @param ALTO Alto del mapa
+     * @param ANCHO Ancho del mapa
+     * @param listaAliados Lista de entidades aliadas en el juego
+     * @param listaEnemigos Lista de entidades enemigas en el juego
+     * @param listaObstaculos Lista de obstáculos en el mapa
+     * @param listaCuranderos Lista de curanderos en el juego
+     * @return {@code true} si la posición es válida y accesible, {@code false} si está fuera de límites o hay colisión
+     */
     public static boolean posicionValida(int xDestino, int yDestino, int ALTO, int ANCHO, 
                                          ArrayList<Aliado> listaAliados, ArrayList<Enemigo> listaEnemigos, 
                                          ArrayList<Obstaculo> listaObstaculos, ArrayList<Curandero> listaCuranderos){
@@ -59,6 +98,15 @@ public class MisFunciones {
         return false;
     }
 
+    /**
+     * Detecta y resuelve colisiones entre enemigos y aliados.
+     * Si un enemigo y un aliado están en la misma posición o en posiciones adyacentes,
+     * se reduce la vida de ambas entidades.
+     * 
+     * @param listaEnemigos Lista de enemigos en el juego
+     * @param listaAliados Lista de aliados en el juego
+     * @return Mensaje descriptivo del evento ocurrido
+     */
     public static String detectarYResolverColisiones(ArrayList<Enemigo> listaEnemigos, ArrayList<Aliado> listaAliados) {
         String evento = "Por ahora nada...";
         for (int i = 0; i < listaEnemigos.size(); i++) {
@@ -78,6 +126,13 @@ public class MisFunciones {
         return evento;
     }
 
+    /**
+     * Limpia las entidades muertas del juego.
+     * Elimina de las listas a todos los enemigos y aliados cuya vida sea menor o igual a cero.
+     * 
+     * @param listaEnemigos Lista de enemigos a limpiar
+     * @param listaAliados Lista de aliados a limpiar
+     */
     public static void limpiarMuertos(ArrayList<Enemigo> listaEnemigos, ArrayList<Aliado> listaAliados) {
         for (int i = 0; i < listaEnemigos.size(); i++) {
             if (listaEnemigos.get(i).vida <= 0) {
