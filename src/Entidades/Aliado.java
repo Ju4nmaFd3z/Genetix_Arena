@@ -58,7 +58,7 @@ public class Aliado extends Entidad implements InterfazAliado{
         }
         
         // Solo huye si el enemigo está dentro de un rango de 5 casillas
-        if (distanciaMinima > 5) return;
+        if (distanciaMinima > 3) return;
         if (enemigo == null) return;
         
         int nuevaX = this.posX;
