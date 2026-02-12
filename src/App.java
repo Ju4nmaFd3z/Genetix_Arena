@@ -12,7 +12,7 @@ import java.util.ArrayList;
  * El juego termina cuando uno de los bandos es completamente eliminado.
  * 
  * @author Juanma Fdez
- * @version 1.0
+ * @version 2.0
  */
 public class App {
     
@@ -44,18 +44,15 @@ public class App {
     public static final String BLUE = "\033[0;34m";
     
     /**
-     * Limpia la pantalla de la consola.
-     * El método detecta el sistema operativo y ejecuta el comando correspondiente
-     * (cls para Windows, clear para Linux/macOS).
+     * Limpia la pantalla de la consola usando códigos ANSI.
+     * Utiliza el código de escape ANSI H para posicionar el cursor en la esquina superior izquierda,
+     * proporcionando una limpieza más rápida sin depender del sistema operativo.
      * 
-     * @throws Exception Si ocurre un error al ejecutar el comando de limpieza
+     * @throws Exception Si ocurre un error durante la ejecución
      */
     public static void limpiarPantalla() throws Exception {
-        if (System.getProperty("os.name").contains("Windows")) {
-            new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
-        } else {
-            new ProcessBuilder("clear").inheritIO().start().waitFor();
-        }
+        System.out.print("\033[H");
+        System.out.flush();
     }
     
     /**
@@ -136,8 +133,8 @@ public class App {
         final String CURANDERO = BLUE+"&"+RESET;
         
         // Dimensiones del mapa
-        final int ALTO = 20;
-        final int ANCHO = 50;
+        final int ALTO = 25;
+        final int ANCHO = 75;
         
         // Inicializar matriz del mapa
         String[][] mapa = new String[ALTO][ANCHO];
@@ -156,21 +153,21 @@ public class App {
         }
         
         // Crear obstáculos
-        for (int i = 0; i < 30; i++) {
+        for (int i = 0; i < 50; i++) {
             Obstaculo obstaculo = new Obstaculo(mapa);
             listaObstaculos.add(obstaculo);
             mapa[obstaculo.posY][obstaculo.posX] = OBSTACULO;
         }
         
         // Crear enemigos
-        for (int i = 0; i < 25; i++) {
+        for (int i = 0; i < 75; i++) {
             Enemigo enemigo = new Enemigo(mapa);
             listaEnemigos.add(enemigo);
             mapa[enemigo.posY][enemigo.posX] = ENEMIGO;
         }
         
         // Crear aliados
-        for (int i = 0; i < 25; i++) {
+        for (int i = 0; i < 75; i++) {
             Aliado aliado = new Aliado(mapa);
             listaAliados.add(aliado);
             mapa[aliado.posY][aliado.posX] = ALIADO;
@@ -226,18 +223,20 @@ public class App {
                 juegoTerminado = true;
             }
             
-            // Redibujar mapa y mostrar información
+            // Redibujar mapa y mostrar estadísticas
             redibujarMapa(mapa, listaObstaculos, listaEnemigos, listaAliados, listaCuranderos);
             MisFunciones.pintarMapa(mapa);
-            System.out.printf("\nEventos Recientes: %s%n", evento);
-            System.out.println("\nRecuento de entidades:");
-            System.out.println("-----------------------------------");
-            System.out.printf("Obstáculos (%s): %d%n", OBSTACULO, listaObstaculos.size());
-            System.out.printf("Curanderos (%s): %d%n", CURANDERO, listaCuranderos.size());
-            System.out.println("-----------------------------------");
-            System.out.printf("Enemigos (%s): %d%n", ENEMIGO, listaEnemigos.size());
-            System.out.printf("Aliados (%s): %d%n", ALIADO, listaAliados.size());
-            
+            StringBuilder stats = new StringBuilder();
+            stats.append(String.format("\nEventos Recientes: %s\n", evento));
+            stats.append(String.format("\nRecuento de entidades:\n"));
+            stats.append(String.format("-----------------------------------\n"));
+            stats.append(String.format("Obstáculos (%s): %d%n", OBSTACULO, listaObstaculos.size()));
+            stats.append(String.format("Curanderos (%s): %d%n", CURANDERO, listaCuranderos.size()));
+            stats.append(String.format("-----------------------------------\n"));
+            stats.append(String.format("Enemigos (%s): %d%n", ENEMIGO, listaEnemigos.size()));
+            stats.append(String.format("Aliados (%s): %d%n", ALIADO, listaAliados.size()));
+            // Imprimo el String Builder
+            System.out.println(stats.toString());
             // Pausa para visualizar el juego
             Thread.sleep(200);
             

@@ -19,31 +19,34 @@ public class MisFunciones {
     
     /**
      * Pinta el mapa en la consola con bordes decorativos.
+     * Construye el mapa completo en un StringBuilder antes de imprimirlo.
      * Dibuja un marco de caracteres especiales alrededor de la matriz
-     * y muestra el contenido de cada casilla.
+     * y muestra el contenido de cada casilla con separación espacial.
      * 
      * @param matriz La matriz bidimensional que representa el mapa
      */
     public static void pintarMapa(String[][] matriz) {
+        StringBuilder mapa = new StringBuilder();
         int filas = matriz.length;
         int columnas = matriz[0].length;
-        System.out.print("╔═");
+        mapa.append("╔═");
         for (int j = 0; j < columnas - 1; j++) {
-            System.out.print("══");
+            mapa.append("══");
         }
-        System.out.println("══╗");
+        mapa.append("══╗\n");
         for (int i = 0; i < filas; i++) {
-            System.out.print("║ ");
+            mapa.append("║ ");
             for (int j = 0; j < columnas; j++) {
-                System.out.printf("%s ", matriz[i][j]);
+                mapa.append(matriz[i][j]+" ");
             }
-            System.out.println("║");
+            mapa.append("║\n");
         }
-        System.out.print("╚═");
+        mapa.append("╚═");
         for (int j = 0; j < columnas - 1; j++) {
-            System.out.print("══");
+            mapa.append("══");
         }
-        System.out.println("══╝");
+        mapa.append("══╝\n");
+        System.out.print(mapa.toString());
     }
 
     /**
