@@ -101,10 +101,10 @@ public class App {
      * Método principal que inicia y controla el flujo del juego.
      * 
      * Inicialización:
-     * - Crea un mapa de 20x50 casillas
-     * - Genera 30 obstáculos
-     * - Genera 25 enemigos
-     * - Genera 25 aliados
+     * - Crea un mapa de 25x75 casillas
+     * - Genera 50 obstáculos
+     * - Genera 75 enemigos
+     * - Genera 75 aliados
      * - Genera 5 curanderos
      * 
      * Loop principal:
@@ -114,7 +114,7 @@ public class App {
      * - Detecta y resuelve colisiones
      * - Limpia entidades muertas
      * - Verifica condiciones de victoria/derrota
-     * - Redibuja el mapa y muestra información
+     * - Redibuja el mapa y muestra estadísticas en StringBuilder
      * 
      * Condiciones de finalización:
      * - Todos los aliados mueren: ganan los enemigos
