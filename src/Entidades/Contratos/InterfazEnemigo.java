@@ -13,7 +13,7 @@ import Entidades.Obstaculo;
  * para definir cómo el enemigo persigue a los aliados.
  * 
  * @author Juanma Fdez
- * @version 1.0
+ * @version 3.0
  */
 public interface InterfazEnemigo {
     

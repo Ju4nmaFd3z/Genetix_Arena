@@ -6,7 +6,7 @@ package Entidades;
  * Se heredan las propiedades de posición y vida de la clase Entidad.
  * 
  * @author Juanma Fdez
- * @version 1.0
+ * @version 3.0
  */
 public class Obstaculo extends Entidad {
     

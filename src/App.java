@@ -12,7 +12,7 @@ import java.util.ArrayList;
  * El juego termina cuando uno de los bandos es completamente eliminado.
  * 
  * @author Juanma Fdez
- * @version 2.0
+ * @version 3.0
  */
 public class App {
     
@@ -78,22 +78,22 @@ public class App {
         
         // Dibujar obstáculos
         for (Obstaculo obstaculo : listaObstaculos) {
-            mapa[obstaculo.posY][obstaculo.posX] = YELLOW+"#"+RESET;
+            mapa[obstaculo.getPosY()][obstaculo.getPosX()] = YELLOW+"#"+RESET;
         }
         
         // Dibujar enemigos
         for (Enemigo enemigo : listaEnemigos) {
-            mapa[enemigo.posY][enemigo.posX] = RED+"X"+RESET;
+            mapa[enemigo.getPosY()][enemigo.getPosX()] = RED+"X"+RESET;
         }
         
         // Dibujar aliados
         for (Aliado aliado : listaAliados) {
-            mapa[aliado.posY][aliado.posX] = GREEN+"O"+RESET;
+            mapa[aliado.getPosY()][aliado.getPosX()] = GREEN+"O"+RESET;
         }
         
         // Dibujar curanderos
         for (Curandero curandero : listaCuranderos) {
-            mapa[curandero.posY][curandero.posX] = BLUE+"&"+RESET;
+            mapa[curandero.getPosY()][curandero.getPosX()] = BLUE+"&"+RESET;
         }
     }
     
@@ -108,13 +108,13 @@ public class App {
      * - Genera 5 curanderos
      * 
      * Loop principal:
-     * - Actualiza movimientos de enemigos (persecución)
-     * - Actualiza movimientos de aliados (escape)
-     * - Actualiza movimientos y curaciones de curanderos
+     * - Actualiza movimientos de enemigos (persecución con movimiento inteligente)
+     * - Actualiza movimientos de aliados (escape con movimiento inteligente)
+     * - Actualiza movimientos y curaciones de curanderos (con movimiento inteligente)
      * - Detecta y resuelve colisiones
      * - Limpia entidades muertas
      * - Verifica condiciones de victoria/derrota
-     * - Redibuja el mapa y muestra estadísticas en StringBuilder
+     * - Redibuja el mapa y muestra estadísticas
      * 
      * Condiciones de finalización:
      * - Todos los aliados mueren: ganan los enemigos
@@ -156,28 +156,28 @@ public class App {
         for (int i = 0; i < 50; i++) {
             Obstaculo obstaculo = new Obstaculo(mapa);
             listaObstaculos.add(obstaculo);
-            mapa[obstaculo.posY][obstaculo.posX] = OBSTACULO;
+            mapa[obstaculo.getPosY()][obstaculo.getPosX()] = OBSTACULO;
         }
         
         // Crear enemigos
         for (int i = 0; i < 75; i++) {
             Enemigo enemigo = new Enemigo(mapa);
             listaEnemigos.add(enemigo);
-            mapa[enemigo.posY][enemigo.posX] = ENEMIGO;
+            mapa[enemigo.getPosY()][enemigo.getPosX()] = ENEMIGO;
         }
         
         // Crear aliados
         for (int i = 0; i < 75; i++) {
             Aliado aliado = new Aliado(mapa);
             listaAliados.add(aliado);
-            mapa[aliado.posY][aliado.posX] = ALIADO;
+            mapa[aliado.getPosY()][aliado.getPosX()] = ALIADO;
         }
         
         // Crear curanderos
         for (int i = 0; i < 5; i++) {
             Curandero curandero = new Curandero(mapa);
             listaCuranderos.add(curandero);
-            mapa[curandero.posY][curandero.posX] = CURANDERO;
+            mapa[curandero.getPosY()][curandero.getPosX()] = CURANDERO;
         }
         
         // Variables de control del juego
@@ -188,19 +188,19 @@ public class App {
         do {
             // Limpiar pantalla
             limpiarPantalla();
-            System.out.println("Genetix Arena - Juanma Fdez");
+            System.out.println("\nGenetix Arena - Juanma Fdez [v3.0 - Con Encapsulación]");
             
-            // Enemigos persiguen a los aliados
+            // Enemigos persiguen a los aliados (con lógica inteligente de 8 direcciones)
             for (Enemigo enemigo : listaEnemigos) {
                 enemigo.Persigue(listaAliados, ALTO, ANCHO, listaEnemigos, listaObstaculos, listaCuranderos);
             }
             
-            // Aliados huyen de los enemigos
+            // Aliados huyen de los enemigos (con lógica inteligente de 8 direcciones)
             for (Aliado aliado : listaAliados) {
                 aliado.Escapa(listaEnemigos, ALTO, ANCHO, listaAliados, listaObstaculos, listaCuranderos);
             }
             
-            // Curanderos se mueven y curan
+            // Curanderos se mueven y curan (con lógica inteligente de 8 direcciones)
             for (Curandero curandero : listaCuranderos) {
                 curandero.Cura(listaAliados, ALTO, ANCHO, listaEnemigos, listaObstaculos, listaCuranderos);
             }

@@ -13,7 +13,7 @@ import Entidades.Obstaculo;
  * detección de colisiones y limpieza de entidades muertas.
  * 
  * @author Juanma Fdez
- * @version 1.0
+ * @version 3.0
  */
 public class MisFunciones {
     
@@ -79,26 +79,36 @@ public class MisFunciones {
     public static boolean posicionValida(int xDestino, int yDestino, int ALTO, int ANCHO, 
                                          ArrayList<Aliado> listaAliados, ArrayList<Enemigo> listaEnemigos, 
                                          ArrayList<Obstaculo> listaObstaculos, ArrayList<Curandero> listaCuranderos){
-        if ((xDestino>=0&&xDestino<ANCHO)&&(yDestino>=0&&yDestino<ALTO)){
-            for (Obstaculo obstaculo : listaObstaculos) {
-                if (obstaculo.posX == xDestino && obstaculo.posY == yDestino)
-                    return false;
-            }
-            for (Aliado aliado : listaAliados) {
-                if (aliado.posX == xDestino && aliado.posY == yDestino)
-                    return false;
-            }
-            for (Enemigo enemigo : listaEnemigos) {
-                if (enemigo.posX == xDestino && enemigo.posY == yDestino)
-                    return false;
-            }
-            for (Curandero curandero : listaCuranderos) {
-                if (curandero.posX == xDestino && curandero.posY == yDestino)
-                    return false;
-            }
-            return true;
+        // Verificar límites del mapa
+        if ((xDestino < 0 || xDestino >= ANCHO) || (yDestino < 0 || yDestino >= ALTO)) {
+            return false;
         }
-        return false;
+        
+        // Verificar colisión con obstáculos
+        for (Obstaculo obstaculo : listaObstaculos) {
+            if (obstaculo.getPosX() == xDestino && obstaculo.getPosY() == yDestino)
+                return false;
+        }
+        
+        // Verificar colisión con aliados
+        for (Aliado aliado : listaAliados) {
+            if (aliado.getPosX() == xDestino && aliado.getPosY() == yDestino)
+                return false;
+        }
+        
+        // Verificar colisión con enemigos
+        for (Enemigo enemigo : listaEnemigos) {
+            if (enemigo.getPosX() == xDestino && enemigo.getPosY() == yDestino)
+                return false;
+        }
+        
+        // Verificar colisión con curanderos
+        for (Curandero curandero : listaCuranderos) {
+            if (curandero.getPosX() == xDestino && curandero.getPosY() == yDestino)
+                return false;
+        }
+        
+        return true;
     }
 
     /**
@@ -116,11 +126,15 @@ public class MisFunciones {
             Enemigo enemigo = listaEnemigos.get(i);
             for (int j = 0; j < listaAliados.size(); j++) {
                 Aliado aliado = listaAliados.get(j);
-                int diferenciaX = Math.abs(enemigo.posX - aliado.posX);
-                int diferenciaY = Math.abs(enemigo.posY - aliado.posY);
+                
+                // Calcular diferencias usando getters
+                int diferenciaX = Math.abs(enemigo.getPosX() - aliado.getPosX());
+                int diferenciaY = Math.abs(enemigo.getPosY() - aliado.getPosY());
+                
+                // Detectar colisión si están en la misma posición o adyacentes
                 if ((diferenciaX == 0 && diferenciaY == 0) || (diferenciaX <= 1 && diferenciaY <= 1 && (diferenciaX + diferenciaY) <= 2)) {
-                    enemigo.vida -= 25;
-                    aliado.vida -= 35;
+                    enemigo.modificarVida(-25);
+                    aliado.modificarVida(-35);
                     evento = "¡Enfrentamiento! Se están matando...";
                     return evento;
                 }
@@ -137,14 +151,17 @@ public class MisFunciones {
      * @param listaAliados Lista de aliados a limpiar
      */
     public static void limpiarMuertos(ArrayList<Enemigo> listaEnemigos, ArrayList<Aliado> listaAliados) {
+        // Limpiar enemigos muertos
         for (int i = 0; i < listaEnemigos.size(); i++) {
-            if (listaEnemigos.get(i).vida <= 0) {
+            if (listaEnemigos.get(i).getVida() <= 0) {
                 listaEnemigos.remove(i);
                 i--; // Irme para atrás para no skippear la posición que se adelanta
             }
         }
+        
+        // Limpiar aliados muertos
         for (int i = 0; i < listaAliados.size(); i++) {
-            if (listaAliados.get(i).vida <= 0) {
+            if (listaAliados.get(i).getVida() <= 0) {
                 listaAliados.remove(i);
                 i--; // Irme para atrás para no skippear la posición que se adelanta
             }

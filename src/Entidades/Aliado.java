@@ -9,10 +9,25 @@ import Funciones.MisFunciones;
  * Los aliados huyen de los enemigos cuando se encuentran a una distancia cercana.
  * Implementa la interfaz InterfazAliado que define el comportamiento de escape.
  * 
+ * Utiliza un sistema inteligente de movimiento que evalúa las 8 casillas adyacentes
+ * y elige la mejor dirección basada en alejarse del enemigo más cercano.
+ * 
  * @author Juanma Fdez
- * @version 1.0
+ * @version 3.0
  */
 public class Aliado extends Entidad implements InterfazAliado{
+    
+    /**
+     * Array con las direcciones posibles en el eje Y.
+     * Ordenadas para evaluación de todas las 8 direcciones posibles.
+     */
+    private static final int[] DIRECCION_Y = {-1, -1, -1, 0, 0, 1, 1, 1};
+    
+    /**
+     * Array con las direcciones posibles en el eje X.
+     * Ordenadas para evaluación de todas las 8 direcciones posibles.
+     */
+    private static final int[] DIRECCION_X = {-1, 0, 1, -1, 1, -1, 0, 1};
     
     /**
      * Constructor que crea un aliado en una posición aleatoria válida del mapa.
@@ -27,9 +42,8 @@ public class Aliado extends Entidad implements InterfazAliado{
 
     /**
      * Implementa el comportamiento de escape del aliado.
-     * El aliado identifica al enemigo más cercano y se mueve en dirección opuesta si está
-     * dentro de un rango de 5 casillas. Utiliza una estrategia de movimiento por ejes
-     * (primero intenta X, luego Y, y finalmente diagonal).
+     * El aliado identifica al enemigo más cercano y si está dentro de un rango de 3 casillas,
+     * evalúa las 8 casillas adyacentes, eligiendo la dirección que lo aleje más del enemigo.
      * Evita obstáculos y otras entidades durante el movimiento.
      * 
      * @param listaEnemigos Lista de todos los enemigos (para identificar amenaza)
@@ -42,79 +56,53 @@ public class Aliado extends Entidad implements InterfazAliado{
     public void Escapa(ArrayList<Enemigo> listaEnemigos, int ALTO, int ANCHO,
                        ArrayList<Aliado> listaAliados, ArrayList<Obstaculo> listaObstaculos, 
                        ArrayList<Curandero> listaCuranderos) {
-        Enemigo enemigo = null;
-        double distanciaMinima = Integer.MAX_VALUE;
         
         // Encontrar el enemigo más cercano
+        Enemigo enemigo = null;
+        double distanciaMinima = Double.MAX_VALUE;
+        
         for (Enemigo enemigoDeLaLista : listaEnemigos) {
-            double diferenciaX = this.posX - enemigoDeLaLista.posX;
-            double diferenciaY = this.posY - enemigoDeLaLista.posY;
-            double distancia = Math.sqrt(Math.pow(diferenciaX, 2) + Math.pow(diferenciaY, 2));
-            
+            double distancia = this.getDistancia(enemigoDeLaLista);
             if (distancia < distanciaMinima) {
                 distanciaMinima = distancia;
                 enemigo = enemigoDeLaLista;
             }
         }
         
-        // Solo huye si el enemigo está dentro de un rango de 5 casillas
-        if (distanciaMinima > 3) return;
-        if (enemigo == null) return;
+        // Solo huye si el enemigo está dentro de un rango de 3 casillas
+        if (distanciaMinima > 3 || enemigo == null) return;
         
-        int nuevaX = this.posX;
-        int nuevaY = this.posY;
+        // Variables para almacenar la mejor dirección encontrada (la que más lo aleja)
+        double menorDistancia = 0;
+        int mejorVx = 0;
+        int mejorVy = 0;
         
-        // Intento moverme primero en X (en dirección opuesta al enemigo)
-        if (enemigo.posX > this.posX) {
-            nuevaX = this.posX - 1;
-        } else if (enemigo.posX < this.posX) {
-            nuevaX = this.posX + 1;
-        }
-        
-        if (MisFunciones.posicionValida(nuevaX, this.posY, ALTO, ANCHO, listaAliados, listaEnemigos, listaObstaculos, listaCuranderos)) {
-            this.posX = nuevaX;
-            return;
-        } else {
-            nuevaX = -nuevaX;
-            if (MisFunciones.posicionValida(nuevaX, this.posY, ALTO, ANCHO, listaAliados, listaEnemigos, listaObstaculos, listaCuranderos)) {
-                this.posX = nuevaX;
-                return;
-            }
-        }
-        
-        // Si X falla, intento en Y
-        if (enemigo.posY > this.posY) {
-            nuevaY = this.posY - 1;
-        } else if (enemigo.posY < this.posY) {
-            nuevaY = this.posY + 1;
-        }
-        
-        if (MisFunciones.posicionValida(this.posX, nuevaY, ALTO, ANCHO, listaAliados, listaEnemigos, listaObstaculos, listaCuranderos)) {
-            this.posY = nuevaY;
-            return;
-        } else {
-            nuevaY = -nuevaY;
-            if (MisFunciones.posicionValida(this.posX, nuevaY, ALTO, ANCHO, listaAliados, listaEnemigos, listaObstaculos, listaCuranderos)) {
-                this.posY = nuevaY;
-                return;
-            }
-        }
-        
-        // Si ambas fallan, intento con la diagonal
-        if ((enemigo.posX > this.posX)&&(enemigo.posY > this.posY)) {
-            nuevaX = this.posX - 1;
-            nuevaY = this.posY - 1;
+        // Evaluar las 8 direcciones posibles
+        for (int i = 0; i < DIRECCION_Y.length; i++) {
+            int nuevaX = this.getPosX() + DIRECCION_X[i];
+            int nuevaY = this.getPosY() + DIRECCION_Y[i];
+            
+            // Verificar si la posición es válida
             if (MisFunciones.posicionValida(nuevaX, nuevaY, ALTO, ANCHO, listaAliados, listaEnemigos, listaObstaculos, listaCuranderos)) {
-                this.posX = nuevaX;
-                this.posY = nuevaY;
+                // Crear posición temporal para calcular distancia
+                Entidad posicionPrueba = new Entidad(nuevaX, nuevaY);
+                
+                // Calcular distancia desde esta nueva posición al enemigo
+                double distancia = posicionPrueba.getDistancia(enemigo);
+                
+                // Si esta dirección nos aleja más del enemigo, la guardamos
+                if (distancia > menorDistancia) {
+                    menorDistancia = distancia;
+                    mejorVx = DIRECCION_X[i];
+                    mejorVy = DIRECCION_Y[i];
+                }
             }
-        } else if ((enemigo.posX < this.posX)&&(enemigo.posY < this.posY)) {
-            nuevaX = this.posX + 1;
-            nuevaY = this.posY + 1;
-            if (MisFunciones.posicionValida(nuevaX, nuevaY, ALTO, ANCHO, listaAliados, listaEnemigos, listaObstaculos, listaCuranderos)) {
-                this.posX = nuevaX;
-                this.posY = nuevaY;
-            }
+        }
+        
+        // Aplicar el movimiento en la mejor dirección encontrada
+        if (mejorVx != 0 || mejorVy != 0) {
+            this.setPosX(this.getPosX() + mejorVx);
+            this.setPosY(this.getPosY() + mejorVy);
         }
     }
 }

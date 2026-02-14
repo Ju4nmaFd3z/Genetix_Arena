@@ -8,10 +8,25 @@ import Funciones.MisFunciones;
  * Los curanderos se mueven hacia los aliados más heridos dentro de un rango de 10 casillas
  * y los curan cuando están a una distancia de 1 casilla.
  * 
+ * Utiliza un sistema inteligente de movimiento que evalúa las 8 casillas adyacentes
+ * y elige la mejor dirección basada en acercarse al aliado más herido.
+ * 
  * @author Juanma Fdez
- * @version 1.0
+ * @version 3.0
  */
 public class Curandero extends Entidad {
+    
+    /**
+     * Array con las direcciones posibles en el eje Y.
+     * Ordenadas para evaluación de todas las 8 direcciones posibles.
+     */
+    private static final int[] DIRECCION_Y = {-1, -1, -1, 0, 0, 1, 1, 1};
+    
+    /**
+     * Array con las direcciones posibles en el eje X.
+     * Ordenadas para evaluación de todas las 8 direcciones posibles.
+     */
+    private static final int[] DIRECCION_X = {-1, 0, 1, -1, 1, -1, 0, 1};
     
     /**
      * Constructor que crea un curandero en una posición aleatoria válida del mapa.
@@ -27,8 +42,8 @@ public class Curandero extends Entidad {
     /**
      * Implementa el comportamiento de curación del curandero.
      * El curandero busca aliados dentro de un rango de 10 casillas que tengan baja vida.
-     * Se mueve hacia el aliado más herido usando una estrategia de movimiento por ejes
-     * (primero intenta X, luego Y) y lo cura cuando está a una distancia de 1 casilla,
+     * Se mueve hacia el aliado más herido evaluando las 8 casillas adyacentes y eligiendo
+     * la dirección que lo acerca más al objetivo. Lo cura cuando está a una distancia de 1 casilla,
      * restaurando 50 puntos de vida con un máximo de 100.
      * 
      * @param listaAliados Lista de aliados a curar
@@ -41,54 +56,65 @@ public class Curandero extends Entidad {
     public void Cura(ArrayList<Aliado> listaAliados, int ALTO, int ANCHO,
                     ArrayList<Enemigo> listaEnemigos, ArrayList<Obstaculo> listaObstaculos, 
                     ArrayList<Curandero> listaCuranderos) {
-        Aliado aliadoMasHerido = null;
-        int menorVida = 100;
-        double distanciaMinima = Integer.MAX_VALUE;
-
+        
         // Encontrar el aliado más herido dentro de rango
+        Aliado aliadoMasHerido = null;
+        int menorVida = Integer.MAX_VALUE;
+        double distanciaAliadoMasHerido = Double.MAX_VALUE;
+
         for (Aliado aliado : listaAliados) {
-            double diferenciaX = this.posX - aliado.posX;
-            double diferenciaY = this.posY - aliado.posY;
-            double distancia = Math.sqrt(Math.pow(diferenciaX, 2) + Math.pow(diferenciaY, 2));
-
-            if (distancia <= 10 && aliado.vida < menorVida) {
-                menorVida = aliado.vida;
-                aliadoMasHerido = aliado;
-                distanciaMinima = distancia;
-            }
-        }
-
-        if (aliadoMasHerido != null) {
-            // Intentar moverse en X hacia el aliado
-            if (aliadoMasHerido.posX > this.posX) {
-                if (MisFunciones.posicionValida(this.posX + 1, this.posY, ALTO, ANCHO, listaAliados, listaEnemigos, listaObstaculos, listaCuranderos)) {
-                    this.posX++;
-                    return;
-                }
-            } else if (aliadoMasHerido.posX < this.posX) {
-                if (MisFunciones.posicionValida(this.posX - 1, this.posY, ALTO, ANCHO, listaAliados, listaEnemigos, listaObstaculos, listaCuranderos)) {
-                    this.posX--;
-                    return;
-                }
-            }
+            double distancia = this.getDistancia(aliado);
             
-            // Intentar moverse en Y hacia el aliado
-            if (aliadoMasHerido.posY > this.posY) {
-                if (MisFunciones.posicionValida(this.posX, this.posY + 1, ALTO, ANCHO, listaAliados, listaEnemigos, listaObstaculos, listaCuranderos)) {
-                    this.posY++;
-                    return;
-                }
-            } else if (aliadoMasHerido.posY < this.posY) {
-                if (MisFunciones.posicionValida(this.posX, this.posY - 1, ALTO, ANCHO, listaAliados, listaEnemigos, listaObstaculos, listaCuranderos)) {
-                    this.posY--;
-                    return;
-                }
+            // Si está dentro del rango y tiene menos vida que los anteriores
+            if (distancia <= 10 && aliado.getVida() < menorVida) {
+                menorVida = aliado.getVida();
+                aliadoMasHerido = aliado;
+                distanciaAliadoMasHerido = distancia;
             }
         }
 
-        // Curar si está lo suficientemente cerca (distancia <= 1)
-        if (aliadoMasHerido != null && distanciaMinima <= 1) {
-            aliadoMasHerido.vida = Math.min(aliadoMasHerido.vida + 50, 100); // +50 vida si lo permite, si sobrepasa, 100
+        // Si no hay aliados dentro de rango, no hacer nada
+        if (aliadoMasHerido == null) {
+            return;
+        }
+
+        // Si el aliado está lo suficientemente cerca, curarlo
+        if (distanciaAliadoMasHerido <= 1) {
+            aliadoMasHerido.modificarVida(50);
+            return; // Priorizar curación sobre movimiento
+        }
+
+        // Variables para almacenar la mejor dirección encontrada
+        double mayorDistancia = Double.MAX_VALUE;
+        int mejorVx = 0;
+        int mejorVy = 0;
+        
+        // Evaluar las 8 direcciones posibles
+        for (int i = 0; i < DIRECCION_Y.length; i++) {
+            int nuevaX = this.getPosX() + DIRECCION_X[i];
+            int nuevaY = this.getPosY() + DIRECCION_Y[i];
+            
+            // Verificar si la posición es válida
+            if (MisFunciones.posicionValida(nuevaX, nuevaY, ALTO, ANCHO, listaAliados, listaEnemigos, listaObstaculos, listaCuranderos)) {
+                // Crear posición temporal para calcular distancia
+                Entidad posicionPrueba = new Entidad(nuevaX, nuevaY);
+                
+                // Calcular distancia desde esta nueva posición al aliado más herido
+                double distancia = posicionPrueba.getDistancia(aliadoMasHerido);
+                
+                // Si esta dirección nos acerca más al objetivo, la guardamos
+                if (distancia < mayorDistancia) {
+                    mayorDistancia = distancia;
+                    mejorVx = DIRECCION_X[i];
+                    mejorVy = DIRECCION_Y[i];
+                }
+            }
+        }
+        
+        // Aplicar el movimiento en la mejor dirección encontrada
+        if (mejorVx != 0 || mejorVy != 0) {
+            this.setPosX(this.getPosX() + mejorVx);
+            this.setPosY(this.getPosY() + mejorVy);
         }
     }
 }

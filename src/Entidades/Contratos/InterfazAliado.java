@@ -13,7 +13,7 @@ import Entidades.Obstaculo;
  * para definir cómo el aliado huye de los enemigos.
  * 
  * @author Juanma Fdez
- * @version 1.0
+ * @version 3.0
  */
 public interface InterfazAliado {
     
