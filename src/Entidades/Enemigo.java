@@ -15,7 +15,7 @@ import Funciones.MisFunciones;
  * @author Juanma Fdez
  * @version 3.0
  */
-public class Enemigo extends Entidad implements InterfazEnemigo{
+public class Enemigo extends Entidad implements InterfazEnemigo {
     
     /**
      * Array con las direcciones posibles en el eje Y.

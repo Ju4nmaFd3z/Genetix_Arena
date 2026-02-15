@@ -15,7 +15,7 @@ import Funciones.MisFunciones;
  * @author Juanma Fdez
  * @version 3.0
  */
-public class Aliado extends Entidad implements InterfazAliado{
+public class Aliado extends Entidad implements InterfazAliado {
     
     /**
      * Array con las direcciones posibles en el eje Y.

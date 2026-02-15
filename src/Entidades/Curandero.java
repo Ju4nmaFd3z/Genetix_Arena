@@ -1,6 +1,7 @@
 package Entidades;
 import java.util.ArrayList;
 
+import Entidades.Contratos.InterfazCurandero;
 import Funciones.MisFunciones;
 
 /**
@@ -14,7 +15,7 @@ import Funciones.MisFunciones;
  * @author Juanma Fdez
  * @version 3.0
  */
-public class Curandero extends Entidad {
+public class Curandero extends Entidad implements InterfazCurandero {
     
     /**
      * Array con las direcciones posibles en el eje Y.
@@ -54,8 +55,8 @@ public class Curandero extends Entidad {
      * @param listaCuranderos Lista de curanderos (para verificar colisiones)
      */
     public void Cura(ArrayList<Aliado> listaAliados, int ALTO, int ANCHO,
-                    ArrayList<Enemigo> listaEnemigos, ArrayList<Obstaculo> listaObstaculos, 
-                    ArrayList<Curandero> listaCuranderos) {
+                     ArrayList<Enemigo> listaEnemigos, ArrayList<Obstaculo> listaObstaculos, 
+                     ArrayList<Curandero> listaCuranderos) {
         
         // Encontrar el aliado más herido dentro de rango
         Aliado aliadoMasHerido = null;
