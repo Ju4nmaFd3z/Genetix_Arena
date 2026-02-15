@@ -2,9 +2,9 @@
 
 Un simulador de combate por turnos con inteligencia artificial avanzada, donde criaturas genéticas luchan por la supervivencia en una arena táctica.
 
-[![Version](https://img.shields.io/badge/version-3.0-blue)](https://github.com/Ju4nmaFd3z/Genetix_Arena)
-[![Java](https://img.shields.io/badge/java-11+-green)](https://www.java.com/)
-[![License](https://img.shields.io/badge/license-MIT-yellow)]()
+[![Version](https://img.shields.io/badge/Version-3.0-blue)](https://github.com/Ju4nmaFd3z/Genetix_Arena)
+[![Java](https://img.shields.io/badge/Java-11+-green)](https://www.java.com/)
+[![License](https://img.shields.io/badge/License-MIT-yellow)]()
 
 ---
 
@@ -106,8 +106,7 @@ Implementación de funcionalidades core:
 ```java
 // La aplicación inicializa automáticamente:
 // - Matriz del mapa
-// - Criaturas aliadas y enemigas
-// - Sistema de IA
+// - Criaturas aliadas y enemigas analizan entorno
 // - Sistema de eventos
 ```
 
@@ -119,21 +118,26 @@ Implementación de funcionalidades core:
 Genetix_Arena/
 ├── src/
 │   ├── App.java              # Punto de entrada principal
-│   ├── entities/             # Clases de criaturas
-│   ├── map/                  # Lógica del mapa y colisiones
-│   ├── combat/               # Sistema de combate
-│   ├── ai/                   # Inteligencia artificial
-│   └── events/               # Sistema de eventos
-├── bin/                      # Archivos compilados
+│   ├── Funciones/            # Funciones auxiliares
+│      └── MisFunciones.java
+│   └── Entidades/            # Clases de criaturas
+│      ├── Aliado.java
+│      ├── Enemigo.java
+│      ├── Obstáculo.java
+│      ├── Curandero.java
+│      ├── Entidad.java
+│      └── Contratos/         # Interfaces
+│         ├── InterfazAliado.java
+│         └── InterfazEnemigo.java
 ├── README.md                 # Este archivo
-└── .gitignore               # Archivos ignorados
+└── .gitignore                # Archivos ignorados
 ```
 
 ---
 
 ## 📋 Funcionalidades por componente
 
-### 🧠 Inteligencia Artificial
+### 🧠 Inteligencia de las entidades
 - Toma de decisiones basada en el entorno
 - Esquiva de paredes y obstáculos
 - Detección de enemigos y aliados
@@ -160,18 +164,6 @@ Genetix_Arena/
 
 ---
 
-## 📈 Roadmap futuro
-
-- [ ] Interfaz gráfica (Swing/JavaFX)
-- [ ] Más tipos de criaturas con habilidades únicas
-- [ ] Sistema de puntuación y estadísticas
-- [ ] Guardado y carga de partidas
-- [ ] Modo multijugador en red
-- [ ] Editor de mapas personalizado
-- [ ] Sistema de logros
-
----
-
 ## 📖 Documentación
 
 Toda la documentación del código está en **JavaDoc**. Para generar la documentación HTML:
@@ -181,10 +173,9 @@ javadoc -d docs src/**/*.java
 ```
 
 Métodos principales documentados:
-- `Entidad.mover()` - Lógica de movimiento
-- `Combate.atacar()` - Sistema de ataque
-- `IA.analizarEntorno()` - Análisis del mapa
-- `Evento.registrar()` - Sistema de eventos
+- `Aliado.Escapa()` - Lógica de movimiento
+- `Enemigo.Persigue()` - Sistema de ataque
+- `Curandero.Cura()` - Sistema de ataque
 
 ---
 
